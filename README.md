@@ -24,6 +24,14 @@ tar -xvzg trec-covid.zip
 cd ..
 ```
 
+NOTES: 
+
+Meta information about the datasets:
+1. Each dataset has two fields with contents that needs be indexed, a `title` and `txt` field.
+2. The trec-covid dataset has `171332` documents while nfcorpus has `3633` documents.
+3. For IR evaluation, each dataset has a fixed set of queries and corresponding relevant documents. 
+4. The trec-covid dataset has `50` queries while nfcorpus has `323` queries. 
+
 Setup for code:
 ---
 
@@ -121,10 +129,45 @@ python -m benchmark.es.evaluate_bm25 data/nfcorpus test nfcorpus
 Note: There is a sleep of 10 seconds between the creation of the index and the evaluation in the above script. 
 This allows ES to finish the indexing before we run the evaluations.
 
-
 Findings:
 ---
-Look at the findings [here](./FINDINGS.md)
+
+We are looking to compare all the different strategies we used for indexing and search using the metric `NDCG@10`.
+This is metric reported by the BEIR paper and can be accessed [here](https://docs.google.com/spreadsheets/d/1L8aACyPaXrL8iEelJLGqlMqXKPX2oSP_R10pZoy77Ns/edit?usp=sharing) for these two datasets and others.
+Other metrics printed below are simply for sanity checks.
+
+Comments:
+1. Comparing to the results for `NDCG@10` reported by BEIR against ES:
+   1. These numbers should match exactly, but they are actually better in reality. 
+   2. The reported benchmark had a bug concerning reproducibility. More details [here](https://github.com/UKPLab/beir/issues/58).
+2. Comparing to the results for `NDCG@10` achieved with ES:
+   1. Perform very poorly for the trec-covid dataset - `0.29494` compared to the `0.68803` for ES.
+   2. Perform slightly poor for the nfcorpus dataset - `0.28791` compared to the `0.34281` for ES.
+3. Comparing to the results for `NDCG@10` achieved with MS using ES-like settings:
+   1. For the trec-covid dataset: `NDCG@10` jumps to `0.59764`, but we still fall short of the best of `0.68803` reported with ES.
+   2. For the nfcorpus dataset: `NDCG@10` jumps to `0.31715`, but we still fall short of the best of `0.34281` reported with ES.
+
+Results for trec-covid`:
+
+|    dataset | settings              | NDCG@10 |
+|-----------:|:----------------------|--------:|
+| trec-covid | MS (default)          | 0.29494 |
+| trec-covid | MS (es-like)          | 0.59764 |
+| trec-covid | ES                    | 0.68803 |
+| trec-covid | ES (reported in BEIR) |   0.616 |
+
+Results for nfcorpus
+
+|    dataset | settings              | NDCG@10 |
+|-----------:|:----------------------|--------:|
+|   nfcorpus | MS (default)          | 0.28791 |
+|   nfcorpus | MS (es-like)          | 0.31715 |
+|   nfcorpus | ES                    | 0.34281 |
+|   nfcorpus | ES (reported in BEIR) |   0.297 |
+
+All Results:
+---
+Look at all the results [here](./RESULTS.md)
 
 
 Questions:
