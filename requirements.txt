@@ -1,0 +1,9 @@
+manticoresearch==1.0.6
+wasabi
+typer
+tqdm
+pytrec_eval==0.5
+numpy
+pandas
+tabulate
+elasticsearch==8.0.0

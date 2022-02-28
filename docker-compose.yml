@@ -1,0 +1,10 @@
+version: '2.2'
+services:
+  es01:
+    image: elasticsearch:7.17.0
+    container_name: es01
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
