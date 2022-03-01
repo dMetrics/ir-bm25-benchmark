@@ -82,6 +82,8 @@ index_exact_words = '1'
 index_field_lengths = '1'
 ```
 
+These options apply to the two text fields of the document collections. More details about indexing can be found in this [function](benchmark/manticore/prepare.py). 
+
 **NOTE 2:**
 The following MS ranking options are set for the evaluation of the ES-like BM25 behaviour:
 ```shell
@@ -100,6 +102,12 @@ You can then change your index preparation script to this:
 python -m benchmark.manticore.prepare data/trec-covid/corpus.jsonl trec_covid_es_like --index-es-like --stop-words /var/lib/manticore/data/elasticsearch_en_stop_words
 python -m benchmark.manticore.prepare data/nfcorpus/corpus.jsonl nfcorpus_es_like --index-es-like --stop-words /var/lib/manticore/data/elasticsearch_en_stop_words
 ```
+
+**NOTE 4:**
+
+Elasticsearch indices are built according to this function in [BEIR](https://github.com/UKPLab/beir/blob/a55552db70f37102352fd5c21b4e811516659a55/beir/retrieval/search/lexical/elastic_search.py#L68) where the two text fields are indexed with the ES English analyzer.
+The resulting indices are then queried with a [multi-match](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html) query over these two fields, as detailed in this [function](https://github.com/UKPLab/beir/blob/a55552db70f37102352fd5c21b4e811516659a55/beir/retrieval/search/lexical/elastic_search.py#L119).
+
 
 Evaluate:
 
@@ -143,32 +151,32 @@ This is metric reported by the BEIR paper and can be accessed [here](https://doc
 Other metrics printed below are simply for sanity checks.
 
 Comments:
-1. Comparing to the results for `NDCG@10` reported by BEIR against ES:
-   1. These numbers should match exactly, but they are actually better in reality. 
-   2. The reported benchmark had a bug concerning reproducibility. More details [here](https://github.com/UKPLab/beir/issues/58).
+1. Comparing to the results for `NDCG@10` achieved with MS using ES-like settings:
+   3. **For the trec-covid dataset: `NDCG@10` jumps to `0.59764`, but we still fall short of the best of `0.68803` reported with ES.**
+   4. **For the nfcorpus dataset: `NDCG@10` jumps to `0.31715`, but we still fall short of the best of `0.34281` reported with ES.**
 2. Comparing to the results for `NDCG@10` achieved with ES:
    1. MS performs very poorly for the trec-covid dataset - `0.29494` compared to the `0.68803` for ES.
    2. MS performs slightly poor for the nfcorpus dataset - `0.28791` compared to the `0.34281` for ES.
-3. Comparing to the results for `NDCG@10` achieved with MS using ES-like settings:
-   1. For the trec-covid dataset: `NDCG@10` jumps to `0.59764`, but we still fall short of the best of `0.68803` reported with ES.
-   2. For the nfcorpus dataset: `NDCG@10` jumps to `0.31715`, but we still fall short of the best of `0.34281` reported with ES.
+3. Comparing to the results for `NDCG@10` reported by BEIR against ES:
+   1. These numbers should match exactly, but they are actually better in reality.
+   2. The reported benchmark had a bug concerning reproducibility. More details [here](https://github.com/UKPLab/beir/issues/58).
 
 Results for trec-covid:
 
-|    dataset | settings              | NDCG@10 |
-|-----------:|:----------------------|--------:|
-| trec-covid | MS (default)          | 0.29494 |
-| trec-covid | MS (es-like)          | 0.59764 |
-| trec-covid | ES                    | 0.68803 |
-| trec-covid | ES (reported in BEIR) |   0.616 |
+|        dataset | settings              |     NDCG@10 |
+|---------------:|:----------------------|------------:|
+|     trec-covid | MS (default)          |     0.29494 |
+| **trec-covid** | **MS (es-like)**      | **0.59764** |
+| **trec-covid** | **ES**                | **0.68803** |
+|     trec-covid | ES (reported in BEIR) |       0.616 |
 
 Results for nfcorpus:
 
 |    dataset | settings              | NDCG@10 |
 |-----------:|:----------------------|--------:|
 |   nfcorpus | MS (default)          | 0.28791 |
-|   nfcorpus | MS (es-like)          | 0.31715 |
-|   nfcorpus | ES                    | 0.34281 |
+|   **nfcorpus** | **MS (es-like)**          | **0.31715** |
+|   **nfcorpus** | **ES**                    | **0.34281** |
 |   nfcorpus | ES (reported in BEIR) |   0.297 |
 
 All Results:
@@ -180,8 +188,6 @@ Questions:
 ---
 1. What options are we missing on our **MS index** for us to get competitive results - similar to ES?
 2. What options are we missing on our **MS ranking options** for us to get competitive results - similar to ES?
-3. We've observed the best results for MS with the default `en` stop words although that list is much larger than the list for English stop words in ES. How can we explain this behavior?
-
 
 Versions:
 ---
