@@ -186,7 +186,9 @@ Questions:
 Versions:
 ---
 Elasticsearch version: 7.17.0
+
 Run using [this](https://hub.docker.com/layers/elasticsearch/library/elasticsearch/7.17.0/images/sha256-fa7141154a7e14df214e42f08c333702403eb88c02ba44e79322a1f42d733013?context=explore) docker image.
 
 Manticore Search version: Manticore 4.2.0 15e927b28@211223 release
+
 Run using [this](https://hub.docker.com/layers/manticoresearch/manticore/4.2.0/images/sha256-b49a09d569838908bd9759d99eaf2807a2f851aadfeff422cf754addbb4bc3ac?context=explore) docker image.
