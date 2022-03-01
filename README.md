@@ -20,7 +20,7 @@ cd data
 wget https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/trec-covid.zip
 wget https://public.ukp.informatik.tu-darmstadt.de/thakur/BEIR/datasets/nfcorpus.zip
 tar -xvzf nfcorpus.zip
-tar -xvzg trec-covid.zip
+tar -xvzf trec-covid.zip
 cd ..
 ```
 
@@ -82,7 +82,13 @@ index_exact_words = '1'
 index_field_lengths = '1'
 ```
 
-**NOTE 2:** 
+**NOTE 2:**
+The following MS ranking options are set for the evaluation of the ES-like BM25 behaviour:
+```shell
+ranker=expr('sum(10000 * bm25f(1.2,0.75,{{title=1,content=1}}))'), idf='plain,tfidf_unnormalized'
+```
+
+**NOTE 3:** 
 
 Manticore's default english stops words is much longer than that for ElasticSearch.
 For the `*es_like` indices you can set use the same stops words as ElasticSearch. 
@@ -141,13 +147,13 @@ Comments:
    1. These numbers should match exactly, but they are actually better in reality. 
    2. The reported benchmark had a bug concerning reproducibility. More details [here](https://github.com/UKPLab/beir/issues/58).
 2. Comparing to the results for `NDCG@10` achieved with ES:
-   1. Perform very poorly for the trec-covid dataset - `0.29494` compared to the `0.68803` for ES.
-   2. Perform slightly poor for the nfcorpus dataset - `0.28791` compared to the `0.34281` for ES.
+   1. MS performs very poorly for the trec-covid dataset - `0.29494` compared to the `0.68803` for ES.
+   2. MS performs slightly poor for the nfcorpus dataset - `0.28791` compared to the `0.34281` for ES.
 3. Comparing to the results for `NDCG@10` achieved with MS using ES-like settings:
    1. For the trec-covid dataset: `NDCG@10` jumps to `0.59764`, but we still fall short of the best of `0.68803` reported with ES.
    2. For the nfcorpus dataset: `NDCG@10` jumps to `0.31715`, but we still fall short of the best of `0.34281` reported with ES.
 
-Results for trec-covid`:
+Results for trec-covid:
 
 |    dataset | settings              | NDCG@10 |
 |-----------:|:----------------------|--------:|
@@ -156,7 +162,7 @@ Results for trec-covid`:
 | trec-covid | ES                    | 0.68803 |
 | trec-covid | ES (reported in BEIR) |   0.616 |
 
-Results for nfcorpus
+Results for nfcorpus:
 
 |    dataset | settings              | NDCG@10 |
 |-----------:|:----------------------|--------:|
@@ -167,10 +173,11 @@ Results for nfcorpus
 
 All Results:
 ---
-Look at all the results [here](./RESULTS.md)
+Look at all the results [here](./RESULTS.md).
 
 
 Questions:
 ---
-1. What options are we missing on our MS index for us to get competitive results - similar to ES?
-2. We've observed the best results for MS with the default `en` stop words although that list is much larger than the list for English stop words in ES. How can we explain this behavior?
+1. What options are we missing on our **MS index** for us to get competitive results - similar to ES?
+2. What options are we missing on our **MS ranking options** for us to get competitive results - similar to ES?
+3. We've observed the best results for MS with the default `en` stop words although that list is much larger than the list for English stop words in ES. How can we explain this behavior?
