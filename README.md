@@ -55,7 +55,7 @@ Evaluating Manticore Search:
 docker pull manticoresearch/manticore
 docker run -p 9306:9306 -p 9308:9308 manticoresearch/manticore
 ```
-- For Manticore dev version
+- For Manticore dev version (MS dev)
 ```shell
 docker pull manticoresearch/manticore:dev
 docker run -p 9306:9306 -p 9308:9308 manticoresearch/manticore:dev
