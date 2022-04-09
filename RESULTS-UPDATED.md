@@ -1,5 +1,7 @@
 Below are results with:
+
 Manticore 4.2.1 d039fba84@220407 release
+
 elasticsearch 7.17.0
 
 Results with all metrics:
