@@ -1,5 +1,5 @@
 from typing import List
-
+import json
 import manticoresearch
 import typer
 from beir.datasets.data_loader import GenericDataLoader
@@ -49,7 +49,7 @@ def evaluate(data_path: str,
                 # body_request = body.encode("utf-8").__str__()[2:-1]
                 api_response = api_instance.sql(body_request, raw_response=raw_response)
                 results[query_id] = {
-                    doc["_source"]["_id"]: doc["_source"]["weight()"] for doc in api_response['hits']['hits']
+                    doc["_source"]["_id"]: doc["_source"]["weight()"] for doc in api_response[0]['hits']['hits']
                 }
                 # Filter out queries with empty results as Elastic does
                 results = {k:v for k,v in results.items() if v}
