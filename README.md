@@ -7,6 +7,12 @@ We try to mimic ES settings for BM25 search as described [here](https://www.elas
 The evaluation is done comparing various IR benchmarking metrics, implemented in [BEIR](https://github.com/UKPLab/beir).
 BEIR is a python package for benchmarking models/algorithms for IR tasks.
 
+All Results:
+---
+Look at all the results [here](./RESULTS.md).
+
+Look at all the updated results [here](./RESULTS-UPDATED.md). Thanks to the manticore team for addressing the concerns we raised!
+
 Setup for data:
 ---
 We evaluate on the datasets below.
@@ -155,7 +161,8 @@ We are looking to compare all the different strategies we used for indexing and 
 This is metric reported by the BEIR paper and can be accessed [here](https://docs.google.com/spreadsheets/d/1L8aACyPaXrL8iEelJLGqlMqXKPX2oSP_R10pZoy77Ns/edit?usp=sharing) for these two datasets and others.
 Other metrics printed below are simply for sanity checks.
 
-Comments:
+Comments: (In context of Manticore 4.2.0. Concerns raised were fixed in 4.2.1. See updated results [here](./RESULTS-UPDATED.md))
+
 1. Comparing to the results for `NDCG@10` achieved with MS using ES-like settings:
    3. **For the trec-covid dataset: `NDCG@10` jumps to `0.59764`, but we still fall short of the best of `0.68803` reported with ES.**
    4. **For the nfcorpus dataset: `NDCG@10` jumps to `0.31715`, but we still fall short of the best of `0.34281` reported with ES.**
@@ -186,16 +193,6 @@ Results for nfcorpus:
 |   **nfcorpus** | **ES**                    | **0.34281** |
 |   nfcorpus | ES (reported in BEIR) |   0.297 |
 
-All Results:
----
-Look at all the results [here](./RESULTS.md).
-
-
-Questions:
----
-1. What options are we missing on our **MS index** for us to get competitive results - similar to ES?
-2. What options are we missing on our **MS ranking options** for us to get competitive results - similar to ES?
-
 Versions:
 ---
 Elasticsearch version: 7.17.0
@@ -203,5 +200,9 @@ Elasticsearch version: 7.17.0
 Run using [this](https://hub.docker.com/layers/elasticsearch/library/elasticsearch/7.17.0/images/sha256-fa7141154a7e14df214e42f08c333702403eb88c02ba44e79322a1f42d733013?context=explore) docker image.
 
 Manticore Search version: Manticore 4.2.0 15e927b28@211223 release
+
+Run using [this](https://hub.docker.com/layers/manticoresearch/manticore/4.2.0/images/sha256-b49a09d569838908bd9759d99eaf2807a2f851aadfeff422cf754addbb4bc3ac?context=explore) docker image.
+
+Manticore Search version (with fixes): Manticore 4.2.1 d039fba84@220407 release
 
 Run using [this](https://hub.docker.com/layers/manticoresearch/manticore/4.2.0/images/sha256-b49a09d569838908bd9759d99eaf2807a2f851aadfeff422cf754addbb4bc3ac?context=explore) docker image.
