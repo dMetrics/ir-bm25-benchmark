@@ -79,6 +79,15 @@ def prepare(data_file: str,
             except ApiException as e:
                 msg.fail("Exception when calling IndexApi->insert: %s\n" % e)
 
+        # Optimize index to prevent possible IDF miscalculation
+        api_instance = manticoresearch.UtilsApi(api_client)
+        body = "FLUSH RAMCHUNK {}".format(index_name)
+        api_instance.sql(body, raw_response=raw_response)
+        # Give time to Manticore for flush completing
+        time.sleep(5)
+        body = "OPTIMIZE INDEX {} OPTION cutoff=1, sync=1".format(index_name)
+        api_instance.sql(body, raw_response=raw_response)
+
         msg.info("Documents inserted in {}s".format(time.time() - start_time))
 
 

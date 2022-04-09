@@ -55,6 +55,11 @@ Evaluating Manticore Search:
 docker pull manticoresearch/manticore
 docker run -p 9306:9306 -p 9308:9308 manticoresearch/manticore
 ```
+- For Manticore dev version (MS dev)
+```shell
+docker pull manticoresearch/manticore:dev
+docker run -p 9306:9306 -p 9308:9308 manticoresearch/manticore:dev
+```
 
 2. Create and populate indices:
 
@@ -167,6 +172,7 @@ Results for trec-covid:
 |---------------:|:----------------------|------------:|
 |     trec-covid | MS (default)          |     0.29494 |
 | **trec-covid** | **MS (es-like)**      | **0.59764** |
+| **trec-covid** | **MS dev (es-like)**         | **0.71211** |
 | **trec-covid** | **ES**                | **0.68803** |
 |     trec-covid | ES (reported in BEIR) |       0.616 |
 
@@ -176,6 +182,7 @@ Results for nfcorpus:
 |-----------:|:----------------------|--------:|
 |   nfcorpus | MS (default)          | 0.28791 |
 |   **nfcorpus** | **MS (es-like)**          | **0.31715** |
+|   **nfcorpus** | **MS dev (es-like)**          | **0.34537** |
 |   **nfcorpus** | **ES**                    | **0.34281** |
 |   nfcorpus | ES (reported in BEIR) |   0.297 |
 

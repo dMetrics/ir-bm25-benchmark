@@ -33,12 +33,13 @@ def evaluate(data_path: str,
             # rankers: 'bm25'; 'proximity_bm25'; 'sph04'; ranker=expr('sum(atc*1000)'), idf='plain,tfidf_unnormalized'
             # ranker=expr('1000 * bm25a(1.2,0.75)')
             # ranker=expr('1000 * bm25f(1.2,0.75,{{title=1,content=1}})')
-            body = "SELECT *, WEIGHT(), PACKEDFACTORS({}) FROM {} WHERE MATCH('@(title,content){}') OPTION ranker=expr('sum(10000 * bm25f(1.2,0.75,{{title=1,content=1}}))'), idf='plain,tfidf_unnormalized', max_matches={}" \
+            body = "SELECT *, WEIGHT(), PACKEDFACTORS({}) FROM {} WHERE MATCH('@(title,content){}') OPTION ranker=expr('10000 * bm25f(1.2,0.75,{{title=1,content=1}})'), idf='plain,tfidf_unnormalized', max_matches={}" \
                 .format("{json=1}",
                         index_name,
                         '"{}"/1'.format(query.replace('\'', '')),
                         max_k)
-            raw_response = True
+            # Set raw_response=False to provide a compatibility the with Manticore dev version
+            raw_response = False
             try:
                 # Performs a search
                 # msg.fail(query)
@@ -48,8 +49,10 @@ def evaluate(data_path: str,
                 # body_request = body.encode("utf-8").__str__()[2:-1]
                 api_response = api_instance.sql(body_request, raw_response=raw_response)
                 results[query_id] = {
-                    doc["_id"]: doc["weight()"] for doc in api_response["data"]
+                    doc["_source"]["_id"]: doc["_source"]["weight()"] for doc in api_response['hits']['hits']
                 }
+                # Filter out queries with empty results as Elastic does
+                results = {k:v for k,v in results.items() if v}
             except ApiException as e:
                 msg.fail("Exception when calling SearchApi->search: %s\n" % e)
 
