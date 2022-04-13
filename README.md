@@ -53,6 +53,17 @@ pip install -r requirements.txt
 pip install --no-deps -r requirements_no_deps.txt
 ```
 
+The updated results required `manticoresearch-python` client version that was not available via pip as of this writing. To install the latest use:
+```
+pip install git+https://github.com/manticoresoftware/manticoresearch-python.git@master
+```
+
+Confirm using pip list that version installed is >=2.0.0
+```
+pip list | grep manticoresearch
+manticoresearch   2.0.0
+```
+
 Evaluating Manticore Search:
 ---
 
