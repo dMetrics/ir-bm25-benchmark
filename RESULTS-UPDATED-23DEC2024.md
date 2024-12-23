@@ -41,12 +41,23 @@ python -m benchmark.manticore.evaluate data/nfcorpus test nfcorpus
 
 
 
-b. ES-like settings (row-6 in sheet):
+b. ES-like settings (row-6 in sheet engine = columnar):
+
+Schema:
+
+```
+CREATE TABLE trec_covid_es_like (
+id bigint,
+title text,
+content text,
+_id string attribute,
+url string attribute
+) index_exact_words='1' html_strip='1' engine='columnar' blend_chars='+,&,-' blend_mode='trim_all,trim_head, trim_tail' morphology='lemmatize_en_all,libstemmer_en' stopwords_unstemmed='1' stopwords='/var/lib/manticore/trec_covid_es_like/en' optimize_cutoff='1'
+```
 
 ```shell
 python -m benchmark.manticore.evaluate data/trec-covid test trec_covid_es_like
 ```
-
 |    | metric   |     k=1 |     k=2 |     k=5 |    k=10 |
 |---:|:---------|--------:|--------:|--------:|--------:|
 |  0 | NDCG     | 0.68    | 0.66066 | 0.6149  | 0.56133 |
@@ -60,10 +71,21 @@ python -m benchmark.manticore.evaluate data/trec-covid test trec_covid_es_like
 
 
 
+Schema
+```
+CREATE TABLE nfcorpus_es_like (
+id bigint,
+title text,
+content text,
+_id string attribute,
+url string attribute
+) index_exact_words='1' html_strip='1' engine='columnar' blend_chars='+,&,-' blend_mode='trim_all,trim_head, trim_tail' morphology='lemmatize_en_all,libstemmer_en' stopwords_unstemmed='1' stopwords='/var/lib/manticore/nfcorpus_es_like/en' optimize_cutoff='1'
+```
 
 ```shell
 python -m benchmark.manticore.evaluate data/nfcorpus test nfcorpus_es_like
 ```
+
 
 |    | metric   |     k=1 |     k=2 |     k=5 |    k=10 |
 |---:|:---------|--------:|--------:|--------:|--------:|
@@ -78,7 +100,19 @@ python -m benchmark.manticore.evaluate data/nfcorpus test nfcorpus_es_like
 
 
 
-b. ES-like settings (row-7 in sheet):
+c. ES-like settings (row-7 in sheet using engine = rowwise):
+
+Schema:
+
+```
+CREATE TABLE trec_covid_es_like1 (
+id bigint,
+title text,
+content text,
+_id string attribute,
+url string attribute
+) index_exact_words='1' html_strip='1' index_field_lengths='1' morphology='stem_en' stopwords_unstemmed='1' stopwords='en'
+```
 
 ```shell
 python -m benchmark.manticore.evaluate data/trec-covid test trec_covid_es_like1
@@ -95,6 +129,20 @@ python -m benchmark.manticore.evaluate data/trec-covid test trec_covid_es_like1
 |  6 | Hole     | 0       | 0.01    | 0.02    | 0.026   |
 |  7 | Accuracy | 0.86    | 0.9     | 1       | 1       |
 
+
+
+
+Schema:
+
+```
+CREATE TABLE nfcorpus_es_like1 (
+id bigint,
+title text,
+content text,
+_id string attribute,
+url string attribute
+) index_exact_words='1' html_strip='1' index_field_lengths='1' morphology='stem_en' stopwords_unstemmed='1' stopwords='en'
+```
 
 
 ```shell
