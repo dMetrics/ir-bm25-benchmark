@@ -15,6 +15,8 @@ Look at all the updated results [here](./RESULTS-UPDATED.md). Thanks to the mant
 
 Look at all the updated results [here](./RESULTS-UPDATED-DEC2024.md). Latest version of manticore and dependencies as of Dec 2024.
 
+Look at all the updated results [here](./RESULTS-UPDATED-23DEC2024.md). Latest version of manticore and dependencies as of 23 Dec 2024.
+
 Setup for data:
 ---
 We evaluate on the datasets below.
