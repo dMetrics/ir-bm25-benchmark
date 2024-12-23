@@ -31,6 +31,8 @@ def prepare(data_file: str,
             host: str = "http://127.0.0.1:9308"):
     configuration = manticoresearch.Configuration(host=host)
     with manticoresearch.ApiClient(configuration) as api_client:
+        raw_response = True
+        
         if not index_exists:
             # Create an instance of the API class
             api_instance = manticoresearch.UtilsApi(api_client)
@@ -45,7 +47,6 @@ def prepare(data_file: str,
                     .format(index_name, stop_words)
             else:
                 body = "CREATE TABLE {}(_id string, title text, content text, url string) ".format(index_name)
-            raw_response = True
 
             try:
                 # Perform SQL requests
@@ -64,7 +65,7 @@ def prepare(data_file: str,
                 prepped_docs = [{
                     "insert": {
                         "index": index_name,
-                        "id": doc["_id"],
+                        # "id": doc["_id"],
                         "doc": {
                             "_id": doc["_id"],
                             "title": doc["title"],
