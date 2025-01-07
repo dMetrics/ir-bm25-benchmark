@@ -32,18 +32,21 @@ def prepare(data_file: str,
     configuration = manticoresearch.Configuration(host=host)
     with manticoresearch.ApiClient(configuration) as api_client:
         raw_response = True
-        
+
         if not index_exists:
             # Create an instance of the API class
             api_instance = manticoresearch.UtilsApi(api_client)
             if index_es_like:
                 body = "CREATE TABLE {}(_id string, title text, content text, url string) " \
                        "stopwords='{}' " \
-                       "stopwords_unstemmed='1' " \
-                       "morphology='stem_en' " \
-                       "html_strip = '1' " \
-                       "index_exact_words = '1' " \
-                       "index_field_lengths = '1'" \
+                       "index_exact_words='1' " \
+                       "html_strip='1'" \
+                       "engine='columnar'" \
+                       "blend_chars='+,&,-'" \
+                       "blend_mode='trim_all,trim_head, trim_tail'" \
+                       "morphology='lemmatize_en_all,libstemmer_en'" \
+                       "stopwords_unstemmed='1'" \
+                       "optimize_cutoff='1'" \
                     .format(index_name, stop_words)
             else:
                 body = "CREATE TABLE {}(_id string, title text, content text, url string) ".format(index_name)

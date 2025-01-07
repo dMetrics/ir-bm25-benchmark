@@ -1,4 +1,4 @@
-manticoresearch==1.0.6
+manticoresearch==4.0.0
 wasabi
 typer
 tqdm

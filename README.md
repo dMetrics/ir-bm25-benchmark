@@ -13,6 +13,10 @@ Look at all the results [here](./RESULTS.md).
 
 Look at all the updated results [here](./RESULTS-UPDATED.md). Thanks to the manticore team for addressing the concerns we raised!
 
+Look at all the updated results [here](./RESULTS-UPDATED-DEC2024.md). Latest version of manticore and dependencies as of Dec 2024.
+
+Look at all the updated results [here](./RESULTS-UPDATED-23DEC2024.md). Latest version of manticore and dependencies as of 23 Dec 2024.
+
 Setup for data:
 ---
 We evaluate on the datasets below.
@@ -217,3 +221,7 @@ Run using [this](https://hub.docker.com/layers/manticoresearch/manticore/4.2.0/i
 Manticore Search version (with fixes): Manticore 4.2.1 d039fba84@220407 release
 
 Run using [this](https://hub.docker.com/layers/manticoresearch/manticore/4.2.0/images/sha256-b49a09d569838908bd9759d99eaf2807a2f851aadfeff422cf754addbb4bc3ac?context=explore) docker image.
+
+Manticore Search version (Dec 2024): Manticore 6.3.8
+
+Run using [this](https://hub.docker.com/layers/manticoresearch/manticore/latest/images/sha256-b86e0dc6529f48205896ba6e90720bcb0814ab5a3d319b4964b31a56b7fedc06) docker image + Updates to manticoresearch python version to 4.0.0 and beir version to 2.0.0
